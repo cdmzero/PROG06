@@ -21,8 +21,8 @@ import java.io.IOException;
 public class programacuerposcelestes {
     
 static BufferedReader dato = new BufferedReader(new InputStreamReader(System.in));
-private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
-
+static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
+static File f =new File("cuerposCelestes.dat");
 
     
     public static void main(String[] args) {     
@@ -46,7 +46,6 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
      private static void mostrarMenu(CuerpoCeleste obj) {
 
         
-
         boolean enabledmostrarMenu = true;
         boolean enabledmostrarMenu2 = true;
         Scanner sca = new Scanner(System.in);
@@ -95,7 +94,7 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
                             break;
 
                         case 5:
-                            eliminarCuerpo();
+                            eliminarCuerpo(f);
                             break;
 
                         case 6:
@@ -151,7 +150,7 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
                     cuerposCelestes = new ArrayList<CuerpoCeleste>();
                 }
             
-            
+               
             
                 cuerposCelestes.add(new CuerpoCeleste(codigoCuerpo,nombre,tipoCuerpo,diametro));
                
@@ -168,9 +167,10 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
     
     
      public static void escribirArchivo(){
-        try{
-            
-            File f=new File("cuerposCelestes.dat");
+         
+        
+         
+         try{
             
             if(!f.exists()) {
               f = new File("cuerposCelestes.dat");
@@ -190,9 +190,7 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
 
      
        private static void listarCuerpos() {
-           
-       File f=new File("cuerposCelestes.dat");
-       
+                  
        
         if(!f.exists()){
             System.err.println("NO EXISTEN DATOS");
@@ -212,7 +210,6 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
      
       private static void abrir(){
           
-          File f=new File("cuerposCelestes.dat");
         try{
             
             if(!f.exists()){
@@ -244,8 +241,9 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
         }
     }
       
-      private static void eliminarCuerpo() {
+      private static void eliminarCuerpo(File f) {
         try{
+            
             System.out.println("Introduzca el codigo de planeta que desea eliminar");
             
             int ni= Integer.parseInt(dato.readLine());
@@ -266,7 +264,7 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
                             System.err.println("Sólo 'S' para borrar y 'N' para mantenerlo");
                         }
                         if(res.equals("S")){
-                            cuerposCelestes.remove(i);//se elimina del array y posteriormente se guarda en el fichero ya sin ese cliente.
+                            cuerposCelestes.remove(i);
                             escribirArchivo();
                             System.out.printf("REGISTRO ELIMINADO\n",i);
                         }
@@ -297,15 +295,15 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
                 
                 int ni=Integer.parseInt(dato.readLine());
                 
-                abrir();//abrir() carga en el ArryList personas, todos los clientes dle fichero.
+                abrir();
                 
-                int i=0;
+                int i=1;
                 encontrado=false;
                 
                 for(CuerpoCeleste p:cuerposCelestes){
                     if(p.getCodigoCuerpo() == ni){
                         encontrado=true;
-                        System.out.println("Registro nº"+i+" - "+p.toString());
+                        System.out.println("nº"+i+" - "+p.toString());
                     }
                     i++;
                 }
@@ -316,14 +314,14 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
                         String tipoCuerpo=dato.readLine();
                         abrir();//abrir() carga en el ArryList personas, todos los clientes dle fichero.
 
-                        int i=0;
+                        int i=1;
                         encontrado=false;
                         
                       
                         for(CuerpoCeleste p:cuerposCelestes){
                             if( p.getTipoCuerpo().equals(tipoCuerpo) ){
                                 encontrado=true;
-                                System.out.println("Registro nº"+i+" - "+p.toString());
+                                System.out.println("nº"+i+" - "+p.toString());
                             }
                             i++;
                     }
@@ -338,6 +336,7 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
                 do{
                     
                     res=dato.readLine().toUpperCase();
+                    System.out.println("Desea buscar otro registro (S/N)");
                     
                     if(!res.equals("N")&&!res.equals("S")){
                         System.err.println("Sólo 'S' para buscar otro y 'N' para salir");
@@ -366,7 +365,7 @@ private static List<CuerpoCeleste> cuerposCelestes = new ArrayList<>();
       
          public static void eliminarFichero() {
               
-         File f=new File("cuerposCelestes.dat");
+    
          String res;
          boolean borrado=false;
          try{
